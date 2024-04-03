@@ -2,16 +2,36 @@ import { Pool } from "pg";
 require("dotenv").config();
 
 // Create a new pool instance
-const { POSTGRES_USER, POSTGRES_HOST, POSTGRES_PASSWORD, POSTGRES_DB_DEV } =
-  process.env;
+const {
+  POSTGRES_USER,
+  POSTGRES_HOST,
+  POSTGRES_PASSWORD,
+  POSTGRES_DB_DEV,
+  POSTGRES_DB_TEST,
+  ENV,
+} = process.env;
 
-const client = new Pool({
-  user: POSTGRES_USER,
-  password: POSTGRES_PASSWORD,
-  host: POSTGRES_HOST,
-  port: 5432, // default PostgreSQL port
-  database: POSTGRES_DB_DEV,
-});
+let client = {} as Pool;
+
+if (ENV === "dev") {
+  client = new Pool({
+    user: POSTGRES_USER,
+    password: POSTGRES_PASSWORD,
+    host: POSTGRES_HOST,
+    port: 5432, // default PostgreSQL port
+    database: POSTGRES_DB_DEV,
+  });
+}
+
+if (ENV === "test") {
+  client = new Pool({
+    user: POSTGRES_USER,
+    password: POSTGRES_PASSWORD,
+    host: POSTGRES_HOST,
+    port: 5432, // default PostgreSQL port
+    database: POSTGRES_DB_TEST,
+  });
+}
 
 // Test the connection
 client.connect((err, client, done) => {
