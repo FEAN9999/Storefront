@@ -57,7 +57,8 @@ const deleteProduct = async (id: string) => {
 
 const updateProduct = async (id: string, product: Product) => {
   try {
-    const sql = "UPDATE products SET name=($1), price=($2) WHERE id=($3)";
+    const sql =
+      "UPDATE products SET name=($1), price=($2) WHERE id=($3) RETURNING *";
     const conn = await client.connect();
     const result = await conn.query(sql, [product.name, product.price, id]);
     conn.release();

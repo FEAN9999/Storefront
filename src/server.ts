@@ -12,7 +12,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use(express.json()); // Add this line to parse request bodies as JSON
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }));
 app.get("/", function (req: Request, res: Response) {
   res.send("Hello World!");
 });
@@ -25,3 +25,4 @@ productsRoute(app); // Add this line to register the products route
 usersRoute(app); // Add this line to register the users route
 orderRoute(app); // Add this line to register the orders route
 
+export default app;

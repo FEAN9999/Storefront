@@ -5,10 +5,10 @@ const jwt = require("jsonwebtoken");
 
 const productsRoute = (app: express.Application) => {
   app.get("/products", indexProducts);
-  app.get("/products/:id", showProduct);
   app.post("/products", verifyAuthToken, addProduct);
   app.put("/products/:id", verifyAuthToken, updateProduct);
   app.delete("/products/:id", verifyAuthToken, deleteProduct);
+  app.get("/products/:id", showProduct);
 };
 
 const indexProducts = async (req: Request, res: Response) => {

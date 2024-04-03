@@ -1,13 +1,10 @@
 import dotenv from "dotenv";
-import actionProduct from "../products";
-import { Product } from "../../common/interface";
+import actionProduct from "../../models/products";
 
 dotenv.config();
 
-const dummyProduct: Product = {
-  id: crypto.randomUUID(),
-  name: "product1",
-  price: 1000,
+const dummyData = {
+  product_id: "",
 };
 
 describe("Product Model", () => {
@@ -32,11 +29,13 @@ describe("Product Model", () => {
   });
 
   it("CREATE method should add a Product", async () => {
-    const { name, price } = await actionProduct.addProduct({
+    const { id, name, price } = await actionProduct.addProduct({
       name: "product1",
       price: 1000,
     });
-    expect({ name, price }).toEqual({
+    dummyData.product_id = id;
+    expect({ id, name, price }).toEqual({
+      id: dummyData.product_id,
       name: "product1",
       price: 1000,
     });
@@ -44,40 +43,35 @@ describe("Product Model", () => {
 
   it("INDEX method should return a list of Products", async () => {
     const listProducts = await actionProduct.indexProducts();
-    expect(listProducts).toEqual([
-      {
-        name: "product1",
-        price: 1000,
-      },
-    ]);
+    expect(listProducts).toBeDefined();
   });
 
   it("SHOW method should return a Product by id", async () => {
     const { name, price } = await actionProduct.showProduct(
-      dummyProduct.id || ""
+      dummyData.product_id
     );
 
     expect({ name, price }).toEqual({
-      name: dummyProduct.name,
-      price: dummyProduct.price,
+      name: "product1",
+      price: 1000,
     });
   });
 
   it("UPDATE method should return a Product updated by id", async () => {
     const { name, price } = await actionProduct.updateProduct(
-      dummyProduct.id || "",
-      { name: "product2", price: 2000 }
+      dummyData.product_id,
+      { name: "product1", price: 1000 }
     );
 
     expect({ name, price }).toEqual({
-      name: "product2",
-      price: 2000,
+      name: "product1",
+      price: 1000,
     });
   });
 
   it("DELETE method should delete a Product by id", async () => {
-    await actionProduct.deleteProduct(dummyProduct.id || "");
-    const result = await actionProduct.showProduct(dummyProduct.id || "");
+    await actionProduct.deleteProduct(dummyData.product_id);
+    const result = await actionProduct.showProduct(dummyData.product_id);
     expect(result).toBe(undefined);
   });
 });

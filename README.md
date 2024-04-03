@@ -34,6 +34,20 @@ $ npm run test
 $ npm run dev
 ```
 
+## Ports
+
+Application :
+
+```shell
+3000
+```
+
+Database :
+
+````shell
+5432
+```
+
 ## Environment Variables
 
 Create the `.env` file.
@@ -47,7 +61,7 @@ POSTGRES_USER=postgres
 POSTGRES_PASSWORD='123456'
 ENV=dev
 TOKEN_SECRET=secret
-```
+````
 
 ## Contributing
 
